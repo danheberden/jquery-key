@@ -26,6 +26,7 @@ control or command ↑.
 
 ## Need to kill off a handler?
 Just rebind with false instead of a function.
+
     $( document ).key( '38,38,40,40,37,39,37,39,66,65', false );
 
 ## Settings

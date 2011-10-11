@@ -4,6 +4,7 @@
   var handler = function( e, cache ){
             var el = this,
                 key = e.keyCode || e.which,
+                now = +new Date(),
                 mod = '';
 
             // ignore control keyes (shft,cntrl,opt,cmnd,caps)
@@ -16,15 +17,13 @@
                 return;
             }
 
-            // use options.time to decide when to stop caring about
-            // previous keypresses
-            var now = +new Date();
-
             // it's been longer than our limit time since anything
             if (  now - cache.lastKeyTime > cache.options.time ) {
               // kill any existing cache
               cache.keyLog = [];
             }
+            // update our lastKeyTime with right now to check on the
+            // next keydown event
             cache.lastKeyTime = now;
 
             // tab magic (dont tab out)

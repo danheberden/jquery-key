@@ -20,7 +20,7 @@ tool to echo the appropriate key combo as you type.
 
 ## Handles Mac Command/Control
 While independent mappings exist for explicit use of control or command
-(`c` and `m`) you can bind to either using a capital `C`. So `c38' will
+(`c` and `m`) you can bind to either using a capital `C`. So `c38` will
 match control-↑, `m38` will match command-↑ and `C38` will match either
 control or command ↑.
 

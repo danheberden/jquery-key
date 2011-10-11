@@ -1,0 +1,89 @@
+<!DoctypE html>
+<html>
+<head>
+  <title> $.fn.key </title>
+  <style>
+    #ball {
+      height:100px;
+      width:100px;
+      border-radius: 50px;
+      background: #f22;
+      position:absolute;
+      left:200px;
+      top: 200px;
+      text-align:center;
+      line-height:50px;
+    }
+  </style>
+</head>
+<body>
+  <h2>.key()</h2>
+  <p>Easily bind to key and key-combinations on a dom-node.<p>
+
+  <p>inputs get ignored by default, though you can pass in
+  bubbleInputs:true in the config object. When binding to inputs
+  directly, it will do all magic.</p>
+  <p>type 'f' then press tab:</p>
+  <textarea id="contentBox"></textarea>
+  <div id="ball">Move With Arrow Keys</div>
+
+  <script src="http://code.jquery.com/jquery.min.js" ></script>
+  <script src="../src/jquery.key.js"></script>
+  <script>
+    // cache $( 'document ) to var $document
+    var $document = $( document );
+
+    // since we're binding straight to document, no need to worry
+    // about doing this in document ready
+    // this is up, up, down, down, left, right, left, right, b, a
+    $document.key( '38,38,40,40,37,39,37,39,66,65', function(e, cache, combo) {
+      // e is the original event
+      // cache is the cache object, that looks like
+      /*    {
+              actions: {},
+              handler: undefined,
+              keyLog: [],
+              lastKeyTime: 0,
+              maxLength: 0
+            }
+      */
+      // combo is the combo that triggered this call
+      alert( 'Konami Code? So Original of You!' );
+    });
+
+    // we're gonna manipulate #ball, so do this in doc ready
+    // on production stuff, i'd declare the methods outside of doc ready
+    // and just setup $ball on doc-ready
+    $document.ready( function() {
+      // keep this shit cached
+      var $ball = $( '#ball' ),
+
+          move = function( e, cache, combo ) {
+            // was combo up or down? set css prop to animate
+            var prop = ( combo == 38 || combo == 40 ) ? 'top' : 'left',
+                // greater than 38? ( down or right ) use plus-increment
+                dir = ( combo > 38 ) ? '+=' : '-=';
+
+                $ball.css( prop, dir + '10px' );
+          }
+
+      // lets use an object instead
+      $document.key({
+        37: move,
+        38: move,
+        39: move,
+        40: move
+      });
+
+      var $contentBox = $( '#contentBox' );
+      // realllly simple snippet type behaviour
+      $contentBox.key( '70,9', function() {
+        var oldVal = $contentBox.val();
+        $contentBox.val( oldVal + 'unction' );
+      }, { holdTab: true } );
+
+    });
+    // move the ball
+  </script>
+</body>
+</html>

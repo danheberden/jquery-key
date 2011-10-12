@@ -1,15 +1,15 @@
-# KeyIt - a jQuery Hotkey/Combo Plugin
+# key- a jQuery Hotkey/Combo Plugin
 
 Want to attach functions to key events? Combinations of keys? BOOM done.
 
-## bind to shift-up
+### bind to shift-up
     $( '#someElement' ).key( 's38', function( event, cache, key ) {
       // event is the original event
       // cache is the internal object stored with $.data
       // key is the key (or combo of keys) that fired this handler
     });
 
-## konami code
+### konami code
     $( document ).key( '38,38,40,40,37,39,37,39,66,65', function( event, cache, combo) {
         // yay! \o/
     });

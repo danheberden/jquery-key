@@ -17,20 +17,6 @@
                 return;
             }
 
-            // it's been longer than our limit time since anything
-            if (  now - cache.lastKeyTime > cache.options.time ) {
-              // kill any existing cache
-              cache.keyLog = [];
-            }
-            // update our lastKeyTime with right now to check on the
-            // next keydown event
-            cache.lastKeyTime = now;
-
-            // tab magic (dont tab out)
-            if ( key === 9 && cache.options.holdTab  ) {
-              e.preventDefault();
-            }
-
             // standard mod keys
             if ( e.altKey ) {
               mod += 'a';
@@ -46,33 +32,56 @@
             }
             mod += key;
 
-            // check for a global handler (one that gets every keypress)
-            if ( cache.actions[ '*' ] ) {
-              cache.actions[ '*' ].call( el, e, cache, mod );
-            }
-            // store into combo log
-            cache.keyLog.unshift( mod );
+            if ( e.type === "keyup" ) {
+              // un-flag state
+              cache.state[ mod ] = false;
 
-            // truncate the array if it's too long
-            if ( cache.keyLog.length > cache.maxLength ) {
-              cache.keyLog.length = cache.maxLength;
-            }
+            } else {
 
-            // check the combo log - go through each key
-            for ( var i = 0; i < cache.keyLog.length; i++ ) {
-              // and for each key, build a list of permutations
-              // work backwards, since our keys are stored like that
-              for ( var j = cache.keyLog.length - 1 - i, combo = []; j >= 0; j-- ) {
-                combo.push( cache.keyLog[j] )
+              // flag state
+              cache.state[ mod ] = true;
+               // it's been longer than our limit time since anything
+              if (  now - cache.lastKeyTime > cache.options.time ) {
+                // kill any existing cache
+                cache.keyLog = [];
               }
-              // make the string permutation
-              combo = combo.join(',');
-              // and give it a shot, yo
-              if ( cache.actions[ combo ] ) {
-                cache.actions[ combo ].call( el, e, cache, combo );
-              }
-            }
+              // update our lastKeyTime with right now to check on the
+              // next keydown event
+              cache.lastKeyTime = now;
 
+              // tab magic (dont tab out)
+              if ( key === 9 && cache.options.holdTab  ) {
+                e.preventDefault();
+              }
+
+              // check for a global handler (one that gets every keypress)
+              if ( cache.actions[ '*' ] ) {
+                cache.actions[ '*' ].call( el, e, cache, mod );
+              }
+              // store into combo log
+              cache.keyLog.unshift( mod );
+
+              // truncate the array if it's too long
+              if ( cache.keyLog.length > cache.maxLength ) {
+                cache.keyLog.length = cache.maxLength;
+              }
+
+              // check the combo log - go through each key
+              for ( var i = 0; i < cache.keyLog.length; i++ ) {
+                // and for each key, build a list of permutations
+                // work backwards, since our keys are stored like that
+                for ( var j = cache.keyLog.length - 1 - i, combo = []; j >= 0; j-- ) {
+                  combo.push( cache.keyLog[j] )
+                }
+                // make the string permutation
+                combo = combo.join(',');
+                // and give it a shot, yo
+                if ( cache.actions[ combo ] ) {
+                  cache.actions[ combo ].call( el, e, cache, combo );
+                }
+              }
+
+            }
         },
 
         // default options
@@ -103,6 +112,7 @@
               keyLog: [],
               maxLength: 0,
               lastKeyTime: 0,
+              state: {},
               options: $.extend( {}, defaultOptions )
             };
           }
@@ -131,6 +141,7 @@
 
             // actually bind/make the handler
             $this.keydown( cache.handler );
+            $this.keyup( cache.handler );
           }
 
           return this;
@@ -194,6 +205,10 @@
           if ( keys === "help" ) {
             help();
             return false;
+          }
+
+          if ( keys === "data" ) {
+            return this.data( '_key_cache' );
           }
 
           var _this = this;

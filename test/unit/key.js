@@ -109,5 +109,32 @@ test( 'Unbind key', function(){
 
 });
 
+test( 'States', function(){
+  expect( 2 );
+  stop( 2 );
 
+  var $test = $( '<div>' ),
+      state = $test.key( '*', function(){}).key( 'data' ).state;
+
+  if ( !state[ 100 ] ) {
+    $test.trigger( jQuery.Event( 'keydown', { keyCode: 100 } ) );
+    setTimeout( function() {
+      ok ( state[ 100 ], "key currently pressed " + JSON.stringify( state ) );
+      start();
+      setTimeout( function() {
+        $test.trigger( jQuery.Event( 'keyup', { keyCode: 100 } ) );
+        setTimeout( function() {
+          ok( !state[ 100 ], "key no longer pressed" );
+          start();
+        }, 50 );
+      },50);
+    }, 50 );
+
+  }
+
+
+
+
+
+});
 

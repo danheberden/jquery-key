@@ -1,0 +1,32 @@
+{
+  "name": "key",
+  "title": "jquery-key - a keypress and combo plugin",
+  "description": "Easily bind to keypress and keypress combination events",
+  "version": "0.1.0",
+  "homepage": "https://github.com/danheberden/jquery-key",
+  "author": {
+    "name": "Dan Heberden",
+    "email": "danheberden@gmail.com",
+    "url": "http://danheberden.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/danheberden/jquery-key.git"
+  },
+  "bugs": "https://github.com/danheberden/jquery-key/issues",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/danheberden/jquery-key/blob/master/LICENSE-MIT"
+    }
+  ],
+  "dependencies": {
+    "jquery": ">= 1.6.2"
+  },
+  "keywords": [
+    "key",
+    "key-combo",
+    "konami",
+    "keypress"
+  ]
+}

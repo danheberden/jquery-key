@@ -1,4 +1,7 @@
-(function( $, document ) {
+/*! jquery-key - a keypress and combo plugin - v0.1.0 - 2013-01-21
+* https://github.com/danheberden/jquery-key
+* Copyright (c) 2013 Dan Heberden; Licensed MIT */
+(function( $ ) {
 
   // process the keydown event
   var handler = function( e, cache ){
@@ -71,7 +74,7 @@
                 // and for each key, build a list of permutations
                 // work backwards, since our keys are stored like that
                 for ( var j = cache.keyLog.length - 1 - i, combo = []; j >= 0; j-- ) {
-                  combo.push( cache.keyLog[j] )
+                  combo.push( cache.keyLog[j] );
                 }
                 // make the string permutation
                 combo = combo.join(',');
@@ -137,7 +140,7 @@
             // the actions and log in scope
             cache.handler = function(e){
               handler.call( $this[0], e, cache );
-            }
+            };
 
             // actually bind/make the handler
             $this.keydown( cache.handler );
@@ -150,9 +153,7 @@
         // preprocessor for using C 'n stuff
         addKey = function( keys, action, opts ) {
            var controlCopy = keys,
-              metaCopy,
-              $this = $( this ),
-              data = $this.data();
+              metaCopy;
 
           // handle capital C
           // if there's a capital C, we need to make one with `c` and one with `m`
@@ -229,4 +230,4 @@
         // chain this shit, yo
         return this;
       };
-})( jQuery, document );
+})( jQuery );
